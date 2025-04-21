@@ -44,34 +44,67 @@ class TelegramForwarder:
     async def _forward_loop(self, job):
         src_ids, dest_id, keywords = job
         await self._ensure_authorized()
-        # Initialize last IDs
         last_ids = {}
         for cid in src_ids:
             msgs = await self.client.get_messages(cid, limit=1)
             last_ids[cid] = msgs[0].id if msgs else 0
-        # Record history
         self._record_forwarding(src_ids, dest_id, keywords)
 
         while True:
             for cid in src_ids:
                 new_msgs = await self.client.get_messages(cid, min_id=last_ids[cid])
                 for msg in reversed(new_msgs):
-                    # Keyword filter applies to text only
                     text = msg.text or ''
                     if not keywords or any(kw.lower() in text.lower() for kw in keywords):
-                        # Actually forward the message (preserves media and forwarded header)
                         await self.client.forward_messages(dest_id, msg.id, from_peer=cid)
                     last_ids[cid] = max(last_ids[cid], msg.id)
             await asyncio.sleep(5)
 
+# Read forwarding jobs from config file
+
+def read_jobs(config_file: str = 'forwarding_config.txt'):
+    jobs = []
+    try:
+        with open(config_file, 'r', encoding='utf-8') as f:
+            for raw in f:
+                # Remove comments and whitespace
+                line = raw.split('#', 1)[0].strip()
+                if not line:
+                    continue
+                # Format: src1,src2; dest; kw1,kw2
+                parts = [p.strip() for p in line.split(';')]
+                if len(parts) < 2:
+                    print(f"Invalid config line (skipped): {line}")
+                    continue
+                # Parse source IDs
+                try:
+                    src_ids = [int(x) for x in parts[0].split(',') if x]
+                except ValueError:
+                    print(f"Invalid source IDs in line (skipped): {line}")
+                    continue
+                # Parse destination ID
+                try:
+                    dest_id = int(parts[1])
+                except ValueError:
+                    print(f"Invalid destination ID in line (skipped): {line}")
+                    continue
+                # Parse keywords if any
+                keywords = []
+                if len(parts) >= 3 and parts[2]:
+                    keywords = [kw.strip() for kw in parts[2].split(',') if kw.strip()]
+                jobs.append((src_ids, dest_id, keywords))
+    except FileNotFoundError:
+        print(f"Config file '{config_file}' not found.")
+    return jobs
+
 async def main():
+    # Credentials reading
     def read_creds():
         try:
             with open('credentials.txt', 'r') as f:
                 return [line.strip() for line in f]
         except FileNotFoundError:
             return None
-
     def write_creds(api_id, api_hash, phone):
         with open('credentials.txt', 'w') as f:
             f.write(f"{api_id}\n{api_hash}\n{phone}\n")
@@ -86,53 +119,46 @@ async def main():
         api_id, api_hash, phone = creds
 
     forwarder = TelegramForwarder(api_id, api_hash, phone)
-    jobs = []
+    jobs = read_jobs()
     tasks = []
+
+    print(f"Loaded {len(jobs)} forwarding job(s) from 'forwarding_config.txt'.")
 
     while True:
         print("\nOptions:")
         print("1. List Chats")
-        print("2. Add Forwarding Job")
-        print("3. List Forwarding Jobs")
-        print("4. Start Forwarding")
-        print("5. Stop Forwarding")
-        print("6. Exit")
+        print("2. Show Forwarding Jobs")
+        print("3. Start Forwarding")
+        print("4. Stop Forwarding")
+        print("5. Exit")
         choice = await ainput('Choice: ')
 
         if choice == '1':
             await forwarder.list_chats()
         elif choice == '2':
-            src = await ainput('Source chat IDs (comma-separated): ')
-            src_ids = [int(x.strip()) for x in src.split(',') if x.strip()]
-            dest = int((await ainput('Destination chat/channel ID: ')).strip())
-            kws = await ainput('Keywords (comma-separated, leave blank for all): ')
-            keywords = [kw.strip() for kw in kws.split(',') if kw.strip()]
-            jobs.append((src_ids, dest, keywords))
-            print(f"Added job #{len(jobs)}")
-        elif choice == '3':
             if not jobs:
-                print('No jobs.')
+                print('No jobs loaded.')
             else:
                 for i, (s, d, k) in enumerate(jobs, 1):
-                    print(f"{i}. {s} → {d}, keywords={k}")
-        elif choice == '4':
+                    print(f"{i}. From {s} -> {d}, keywords={k}")
+        elif choice == '3':
             if tasks:
-                print('Already running.')
+                print('Forwarding already running.')
             elif not jobs:
-                print('No jobs defined.')
+                print('No jobs to run.')
             else:
                 for job in jobs:
                     tasks.append(asyncio.create_task(forwarder._forward_loop(job)))
-                print('Forwarding started in background.')
-        elif choice == '5':
+                print('Started forwarding jobs in background.')
+        elif choice == '4':
             if not tasks:
-                print('Nothing to stop.')
+                print('No forwarding tasks to stop.')
             else:
                 for t in tasks:
                     t.cancel()
                 tasks.clear()
-                print('All forwarding tasks stopped.')
-        elif choice == '6':
+                print('Stopped all forwarding tasks.')
+        elif choice == '5':
             print('Exiting.')
             break
         else:
