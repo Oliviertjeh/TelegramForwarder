@@ -55,6 +55,21 @@ pip install -r requirements.txt
 python TelegramForwarder.py
 
 # (optional) You can run it in the background by:
-# nohup python TelegramForwarder.py > output.log 2>&1 &
-# to see the live logs: tail -f output.log
-# to stop the script: pkill -f TelegramForwarder.py
+sudo nano /etc/systemd/system/telegram-autoforwarder.service
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/Telegram-Autoforwarder
+ExecStart=/usr/bin/bash -lc 'source /home/pi/Telegram-Autoforwarder/.venv/bin/activate && exec python TelegramForwarder.py'
+Restart=always
+RestartSec=10
+
+# restart
+sudo systemctl daemon-reload
+sudo systemctl restart telegram-autoforwarder.service
+
+#check the status
+sudo systemctl status telegram-autoforwarder.service
+journalctl -u telegram-autoforwarder.service -f
+
