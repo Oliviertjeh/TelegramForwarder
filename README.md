@@ -55,5 +55,6 @@ pip install -r requirements.txt
 python TelegramForwarder.py
 
 # (optional) You can run it in the background by:
-# Press Ctrl + A and then Ctrl + D
-# Then close the connection with for example Putty and reattach the session by typing screen -r forwarder if wanting to stop or make adjustments
+# nohup python TelegramForwarder.py > output.log 2>&1 &
+# to see the live logs: tail -f output.log
+# to stop the script: pkill -f TelegramForwarder.py
