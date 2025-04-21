@@ -47,7 +47,7 @@ Effortlessly forward messages—including text, images, videos, voice notes, and
 ## Installation & Usage
 Remember to edit the forwarding_config.txt, where the sources and destinations must be added.
 ```bash
-git clone https://github.com/yourusername/Telegram-AutoForwarder.git
+git clone https://github.com/Oliviertjeh/TelegramForwarder
 cd Telegram-AutoForwarder
 python3 -m venv .venv
 source .venv/bin/activate
