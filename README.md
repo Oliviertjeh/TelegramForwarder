@@ -1,6 +1,6 @@
 # Telegram AutoForwarder [Working in 2025]
 
-Effortlessly forward messages—including text, images, videos, voice notes, and more—between any number of Telegram chats or channels, using native forwarding and powerful keyword filters.
+Effortlessly forward messages—including text, images, videos, voice notes, and more—between any number of Telegram chats or channels, using native forwarding and keyword filters.
 
 ---
 
