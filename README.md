@@ -58,12 +58,15 @@ python TelegramForwarder.py
 sudo nano /etc/systemd/system/telegram-autoforwarder.service
 
 [Service]
+[Service]
 Type=simple
 User=pi
 WorkingDirectory=/home/pi/Telegram-Autoforwarder
-ExecStart=/usr/bin/bash -lc 'source /home/pi/Telegram-Autoforwarder/.venv/bin/activate && exec python TelegramForwarder.py'
+ExecStart=/usr/bin/bash -lc 'source /home/pi/Telegram-Autoforwarder/.venv/bin/activate && exec python TelegramForwarder_autorun.py'
 Restart=always
 RestartSec=10
+StandardOutput=journal
+StandardError=journal
 
 # restart
 sudo systemctl daemon-reload
