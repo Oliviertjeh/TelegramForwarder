@@ -53,3 +53,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 python TelegramForwarder.py
+
+# (optional) You can run it in the background by:
+# Press Ctrl + A and then Ctrl + D
+# Then close the connection with for example Putty and reattach the session by typing screen -r forwarder if wanting to stop or make adjustments
