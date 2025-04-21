@@ -75,4 +75,5 @@ sudo systemctl restart telegram-autoforwarder.service
 #check the status
 sudo systemctl status telegram-autoforwarder.service
 journalctl -u telegram-autoforwarder.service -f
+then you can press ctrl + c to stop live logs and close for example Putty
 
