@@ -1,0 +1,24 @@
+# forwarding_config.txt
+# Format: source_chat_id1,source_chat_id2,... ; destination_chat_id ; keyword1,keyword2,...
+# Leave keyword section blank to forward all messages.
+# Lines starting with # are comments.
+
+# ──────────────── News Channels ────────────────
+
+-1001111111111, -1001111112222 ; -1009999990001 ; emergency,happy
+-1001111113333                  ; -1009999990001 ; breaking,alert
+
+# ──────────────── Food Groups ────────────────
+
+-1002222221111 ; -1009999990002 ; Vegetables,Meat
+-1002222222222 ; -1009999990002 ; 
+-1002222223333 ; -1009999990002
+
+# ──────────────── Community Alerts ────────────────
+
+-1003333331111 ; -1009999990003 ; Tasty,Good
+-1003333332222 ; -1009999990003 ; announcement,update
+
+# ──────────────── Miscellaneous ────────────────
+
+-1004444441111 ; -1009999990004
