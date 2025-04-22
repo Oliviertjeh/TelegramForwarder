@@ -13,7 +13,7 @@ After=network.target
 Type=simple
 User=pi
 WorkingDirectory=/home/pi/Telegram-Autoforwarder
-ExecStart=/home/pi/Telegram-Autoforwarder/.venv/bin/python3 /home/pi/Telegram-Autoforwarder/TelegramForwarder.py
+ExecStart=/home/pi/Telegram-Autoforwarder/.venv/bin/python3 /home/pi/Telegram-Autoforwarder/TelegramForwarder_autorun.py
 Restart=on-failure
 RestartSec=5
 
