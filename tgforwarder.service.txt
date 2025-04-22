@@ -1,4 +1,9 @@
 #Add to: /etc/systemd/system/tgforwarder.service
+#Then run:
+#sudo systemctl daemon-reload
+#sudo systemctl enable tgforwarder
+#sudo systemctl start tgforwarder
+#sudo journalctl -u tgforwarder -f   # live logs bekijken
 
 [Unit]
 Description=Telegram Auto‑Forwarder
