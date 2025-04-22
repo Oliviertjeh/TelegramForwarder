@@ -6,7 +6,7 @@
 #sudo journalctl -u tgforwarder -f   # live logs bekijken
 
 [Unit]
-Description=Telegram Auto‑Forwarder
+Description=Telegram AutoForwarder
 After=network.target
 
 [Service]
