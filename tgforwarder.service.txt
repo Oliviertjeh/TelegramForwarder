@@ -1,0 +1,16 @@
+#Add to: /etc/systemd/system/tgforwarder.service
+
+[Unit]
+Description=Telegram Auto‑Forwarder
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/Telegram-Autoforwarder
+ExecStart=/home/pi/Telegram-Autoforwarder/.venv/bin/python3 /home/pi/Telegram-Autoforwarder/auto_forwarder.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
