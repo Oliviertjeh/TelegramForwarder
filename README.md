@@ -49,31 +49,20 @@ Remember to edit the forwarding_config.txt, where the sources and destinations m
 ```bash
 git clone https://github.com/Oliviertjeh/TelegramForwarder
 cd Telegram-AutoForwarder
-python3 -m venv .venv
-source .venv/bin/activate
+python3 -m venv .venv/TGforwarder
+source .venv/TGforwarder/bin/activate
 pip install -r requirements.txt
 python TelegramForwarder.py
 
 # (optional) You can run it in the background by:
 sudo nano /etc/systemd/system/telegram-autoforwarder.service
 
-[Service]
-[Service]
-Type=simple
-User=pi
-WorkingDirectory=/home/pi/Telegram-Autoforwarder
-ExecStart=/usr/bin/bash -lc 'source /home/pi/Telegram-Autoforwarder/.venv/bin/activate && exec python TelegramForwarder_autorun.py'
-Restart=always
-RestartSec=10
-StandardOutput=journal
-StandardError=journal
-
 # restart
 sudo systemctl daemon-reload
-sudo systemctl restart telegram-autoforwarder.service
+sudo systemctl restart telegram_forwarder.service
 
 #check the status
-sudo systemctl status telegram-autoforwarder.service
-journalctl -u telegram-autoforwarder.service -f
+sudo systemctl status telegram_forwarder.service
+journalctl -u telegram_forwarder.service -f
 then you can press ctrl + c to stop live logs and close for example Putty
 
