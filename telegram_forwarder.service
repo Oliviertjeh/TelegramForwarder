@@ -1,0 +1,16 @@
+[Unit]
+Description=Telegram Forwarder Service
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/TelegramForwarder
+ExecStart=/usr/bin/bash -lc 'source /home/pi/TelegramForwarder/.venv/TGforwarder/bin/activate && exec python /home/pi/TelegramForwarder/TelegramForwarder_autorun.py'
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
