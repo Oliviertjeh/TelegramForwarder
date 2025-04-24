@@ -47,6 +47,8 @@ Effortlessly forward messages—including text, images, videos, voice notes, and
 ## Installation & Usage
 Remember to edit the forwarding_config.txt, where the sources and destinations must be added.
 ```bash
+sudo apt update && sudo apt upgrade
+sudo apt install git -y
 git clone https://github.com/Oliviertjeh/TelegramForwarder
 cd TelegramForwarder
 python3 -m venv .venv/TGforwarder
