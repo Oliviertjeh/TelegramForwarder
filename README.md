@@ -48,7 +48,7 @@ Effortlessly forward messages—including text, images, videos, voice notes, and
 Remember to edit the forwarding_config.txt, where the sources and destinations must be added.
 ```bash
 git clone https://github.com/Oliviertjeh/TelegramForwarder
-cd Telegram-AutoForwarder
+cd TelegramForwarder
 python3 -m venv .venv/TGforwarder
 source .venv/TGforwarder/bin/activate
 pip install -r requirements.txt
