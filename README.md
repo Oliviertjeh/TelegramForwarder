@@ -55,8 +55,8 @@ pip install -r requirements.txt
 python TelegramForwarder.py
 
 # (optional) You can run it in the background by:
-sudo nano /etc/systemd/system/telegram-autoforwarder.service
-and add the code of the telegram-autoforwarder.service file
+sudo nano /etc/systemd/system/telegram-forwarder.service
+and add the code of the telegram-forwarder.service file
 
 # restart
 sudo systemctl daemon-reload
